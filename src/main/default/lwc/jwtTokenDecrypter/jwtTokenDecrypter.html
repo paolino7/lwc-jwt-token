@@ -5,11 +5,11 @@
         </h2>
 
         <div class="slds-var-p-around_medium lgc-bg">
-            <lightning-input type="text" label="Enter JWT key"></lightning-input>
+            <lightning-input type="text" label="Enter JWT key" name="jwtKey" onchange={handleChange}></lightning-input>
         </div>
 
         <div class="slds-var-p-around_medium lgc-bg">
-            <lightning-input type="text" label="Enter JWT"></lightning-input>
+            <lightning-input type="text" label="Enter JWT" name="jwtBody"  onchange={handleChange}></lightning-input>
         </div>
     </div>
 
@@ -18,6 +18,13 @@
     </div>
 
     <div>
-        <p>{decryptText}</p>
+        <div>
+            <h3>Header</h3>
+            <p>{decryptedHeader}</p>
+        </div>
+        <div>
+            <h3>Body</h3>
+            <p>{decryptedBody}</p>
+        </div>
     </div>
 </template>
