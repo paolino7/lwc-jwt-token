@@ -1,0 +1,23 @@
+<template>
+    <div class="slds-var-m-top_medium slds-var-m-bottom_x-large">
+        <h2 class="slds-text-heading_medium slds-var-m-bottom_medium">
+            JWT Decrypter
+        </h2>
+
+        <div class="slds-var-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Enter JWT key"></lightning-input>
+        </div>
+
+        <div class="slds-var-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Enter JWT"></lightning-input>
+        </div>
+    </div>
+
+    <div>
+        <lightning-button variant="brand" label="Decrypt" title="Decrypt" onclick={handleDecrypt} class="slds-var-m-left_x-small"></lightning-button>
+    </div>
+
+    <div>
+        <p>{decryptText}</p>
+    </div>
+</template>
