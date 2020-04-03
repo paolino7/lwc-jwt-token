@@ -1,15 +1,14 @@
 import { LightningElement, track } from 'lwc';
-import { loadScript } from 'lightning/platformResourceLoader';
-import jsrsasign from "@salesforce/resourceUrl/jsrsasign";
-
+import JwtDecryptUtil from "c/jwtDecryptUtil";
 export default class JwtTokenDecrypter extends LightningElement {
 
-    decryptedHeader = '';
-    decryptedBody = '';
+    @track decryptedHeader = '';
+    @track decryptedBody = '';
     jwtKey;
     jwtBody;
 
     keyUtilInitialized = false;
+    jwtDecrypter;
 
     renderedCallback() {
         if (this.keyUtilInitialized) {
@@ -17,9 +16,8 @@ export default class JwtTokenDecrypter extends LightningElement {
         }
 
         this.keyUtilInitialized = true;
-        loadScript(this, jsrsasign).then( () => {
-            console.log('jsrsasign loaded!');
-        })
+        this.jwtDecrypter = new JwtDecryptUtil();
+        this.jwtDecrypter.init(this);
     }
 
     handleDecrypt() {
@@ -33,14 +31,13 @@ export default class JwtTokenDecrypter extends LightningElement {
             return;
         }
 
-        const isValid = KJUR.jws.JWS.verifyJWT(this.jwtBody, this.jwtKey, {alg: ['HS256']});
+        const isValid = this.jwtDecrypter.validateJwt(this.jwtKey, this.jwtBody);
         console.log(`Is valid ${isValid}`);
 
-        const _header = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(this.jwtBody.split(".")[0]));
-        this.decryptedHeader = JSON.stringify(_header);
+        const _decrypted = this.jwtDecrypter.getJwtHeaderAndBody(this.jwtBody);
+        this.decryptedHeader = JSON.stringify(_decrypted.header);
         console.log(`decryptedHeader: ${JSON.stringify(this.decryptedHeader)} `);
-        const _body = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(this.jwtBody.split(".")[1]));
-        this.decryptedBody = JSON.stringify(_body);
+        this.decryptedBody = JSON.stringify(_decrypted.body);
         console.log(`decryptedBody: ${this.decryptedBody} `);
         
     }
