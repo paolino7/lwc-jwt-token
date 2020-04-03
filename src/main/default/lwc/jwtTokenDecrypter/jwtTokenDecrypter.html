@@ -3,13 +3,19 @@
     <div class="slds-size_full">
         <lightning-card>
             <h3 slot="title">
-                <lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>
-                JWT Decrypter
-                <lightning-button variant="brand" label="Decrypt" title="Decrypt" onclick={handleDecrypt}
-                    class="slds-var-m-left_x-small"></lightning-button>
+                <div class="slds-grid">
+                    <div class="slds-col_bump-right">
+                        <lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>
+                        JWT Decrypter
+                    </div>
+                    <div>
+                        <lightning-button variant="brand" label="Decrypt" title="Decrypt" onclick={handleDecrypt}
+                            class="slds-var-m-left_x-small"></lightning-button>
+                    </div>
+                </div>
             </h3>
             <div slot="footer">
-                <lightning-badge label="JWT Token Valid"></lightning-badge>
+                <lightning-badge label={badgeLabel} class={badgeCssClass}></lightning-badge>
             </div>
             <!-- Body -->
             <div>
@@ -26,11 +32,16 @@
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1">
                         <h3>Header</h3>
-                        <p>{decryptedHeader}</p>
+                        <div style="padding:0.5rem;background:#16325c">
+                            <div class="slds-text-color_inverse slds-text-font_monospace">{decryptedHeader}</div>
+                        </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1">
                         <h3>Body</h3>
-                        <p>{decryptedBody}</p>
+                        <div style="padding:0.5rem;background:#16325c">
+                            <div class="slds-text-color_inverse slds-text-font_monospace"
+                                style="word-wrap: break-word;">{decryptedBody}</div>
+                        </div>
                     </div>
                 </div>
             </div>

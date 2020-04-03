@@ -4,6 +4,8 @@ export default class JwtTokenDecrypter extends LightningElement {
 
     @track decryptedHeader = '';
     @track decryptedBody = '';
+    @track badgeCssClass = '';
+    @track badgeLabel = 'JWT Key not filled';
     jwtKey;
     jwtBody;
 
@@ -33,6 +35,7 @@ export default class JwtTokenDecrypter extends LightningElement {
 
         const isValid = this.jwtDecrypter.validateJwt(this.jwtKey, this.jwtBody);
         console.log(`Is valid ${isValid}`);
+        this.handleJwtValid(isValid);
 
         const _decrypted = this.jwtDecrypter.getJwtHeaderAndBody(this.jwtBody);
         this.decryptedHeader = JSON.stringify(_decrypted.header);
@@ -49,5 +52,16 @@ export default class JwtTokenDecrypter extends LightningElement {
         } else if (field === 'jwtBody') {
             this.jwtBody = event.target.value;
         }
+    }
+
+    handleJwtValid(isValid) {
+        if (isValid) {
+            this.badgeCssClass = 'slds-theme_success';
+            this.badgeLabel = 'JWT Valid';
+        } else {
+            this.badgeCssClass = 'slds-theme_error';
+            this.badgeLabel = 'JWT not valid';
+        }
+
     }
 }
